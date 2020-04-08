@@ -1,6 +1,6 @@
 'use strict';
 
-let money = prompt('Ваш бюджет на месяц'),
+let money = +prompt('Ваш бюджет на месяц'),
     time = prompt('Введите дату в формате YYYY-MM-DD');
 
 let appData = {
@@ -12,14 +12,30 @@ let appData = {
   savings: false
 };
 
-let quetionOne = prompt('Введите обязательную статью расходов в этом месяце');
-let quetionTwo = prompt('Во сколько обойдется?');
 
-appData.expenses.quetionOne = +quetionTwo;
+for (let i = 0; i < 2; i++) {
+  let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
+      b = prompt("Во сколько обойдется?", '');
+  
+  if (typeof(a) === 'string' && typeof(a) != null && a != '' && typeof(b) != null && b != '' && a.length < 50) {
+    console.log('done');
+    appData.expenses[a] = b;
+  } else {
+    i--;
+  }
+}
 
-let budgetOneDay = (money - appData.expenses.quetionOne) / 30;
+appData.moneyPerDay = appData.budget / 30;
 
-alert(budgetOneDay);
+alert("Ежедневный бюджет: " + appData.moneyPerDay);
+
+if (appData.moneyPerDay < 100) {
+  console.log("Минимальный уровень достатка");
+} else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
+  console.log("Средний уровень достатка");
+} else if (appData.moneyPerDay > 2000) {
+  console.log("Высокий уровень достатка");
+}
 
 
 
