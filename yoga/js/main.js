@@ -99,18 +99,51 @@ window.addEventListener('DOMContentLoaded', function() {
       close = document.querySelector('.popup-close');
 
   function outputModal(btn, overlay, close) {
-    btn.addEventListener('click', function() {
-      overlay.style.display = 'block';
-      this.classList.add('more-splash');
-      document.body.style.overflow = 'hidden';
-    });
-  
-    close.addEventListener('click', function() {
-      overlay.style.display = 'none';
-      btn.classList.remove('more-splash');
-      document.body.style.overflow = '';
-    });
+
+    if (!btn.length) {
+      btn.addEventListener('click', function() {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+      });
+    
+      close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        btn.classList.remove('more-splash');
+        document.body.style.overflow = '';
+      });
+    } else {
+      let info = document.querySelector('.info');
+      let b;
+
+      info.addEventListener('click', function(e) {
+        let target = e.target;
+        console.log(target);
+        if (target && target.classList.contains('description-btn')) {
+          for (let i = 0; i < btn.length; i++) {
+            if (target == btn[i]) {
+              overlay.style.display = 'block';
+              btn[i].classList.add('more-splash');
+              document.body.style.overflow = 'hidden';
+
+              b = btn[i];
+              break;
+            }
+          }
+        }
+      });
+
+      close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        b.classList.remove('more-splash');
+        document.body.style.overflow = '';
+      });
+    }
   }
 
   outputModal(btn, overlay, close);
+
+  let btnDescription = document.querySelectorAll('.description-btn');
+
+  outputModal(btnDescription, overlay, close);
 });
