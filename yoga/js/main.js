@@ -33,4 +33,84 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     }
   })
+
+  // Timer
+
+  let deadline = '2020-04-10';
+  
+  function getTimerRemaining(endtime) {
+    let t = Date.parse(deadline) - Date.parse(new Date()),
+        seconds = Math.floor(t/1000 % 60),
+        minutes = Math.floor(t/1000/60 % 60),
+        hours = Math.floor(t/1000/60/60);
+    
+    return {
+      'total': t,
+      'seconds': seconds,
+      'minutes': minutes,
+      'hours': hours
+    };
+
+  }
+
+  setClock('timer', deadline);
+
+  function setClock(id, endtime) {
+    let timer = document.getElementById(id),
+        hours = timer.querySelector('.hours'),
+        minutes = timer.querySelector('.minutes'),
+        seconds = timer.querySelector('.seconds'),
+        updateTimer = setInterval(updateClock, 1000);
+
+    function updateClock() {
+      let t = getTimerRemaining(endtime);
+
+      if (t.total <= 0) {
+        clearInterval(updateTimer);
+
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
+      } else {
+        if (t.hours < 10) {
+          hours.textContent = '0' + t.hours;
+        } else {
+          hours.textContent = t.hours;
+        }
+        if (t.minutes < 10) {
+          minutes.textContent = '0' + t.minutes;
+        } else {
+          minutes.textContent = t.minutes;
+        }
+        if (t.seconds < 10) {
+          seconds.textContent = '0' + t.seconds;
+        } else {
+          seconds.textContent = t.seconds;
+        }
+      }
+
+    }
+  }
+
+  // Modal
+
+  let btn = document.querySelector('.more'),
+      overlay = document.querySelector('.overlay'),
+      close = document.querySelector('.popup-close');
+
+  function outputModal(btn, overlay, close) {
+    btn.addEventListener('click', function() {
+      overlay.style.display = 'block';
+      this.classList.add('more-splash');
+      document.body.style.overflow = 'hidden';
+    });
+  
+    close.addEventListener('click', function() {
+      overlay.style.display = 'none';
+      btn.classList.remove('more-splash');
+      document.body.style.overflow = '';
+    });
+  }
+
+  outputModal(btn, overlay, close);
 });
